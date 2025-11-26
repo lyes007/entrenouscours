@@ -1,0 +1,165 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = []
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role      @default(STUDENT)
+
+  accounts       Account[]
+  sessions       Session[]
+  courses        Course[]        @relation("TeacherCourses")
+  courseRequests CourseRequest[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum OfferType {
+  PAID
+  FREE
+  EXCHANGE
+}
+
+enum Modality {
+  ONLINE
+  IN_PERSON
+  FLEXIBLE
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  EXCHANGE
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+model Course {
+  id             String    @id @default(cuid())
+  title          String
+  description    String
+  subject        String
+  level          String
+  googleMeetUrl  String
+
+  // Offre et tarification
+  offerType      OfferType @default(PAID)
+  pricePerHour   Int?
+  currency       String    @default("TND")
+
+  // Modalités et disponibilités
+  modality       Modality  @default(ONLINE)
+  availability   String    // texte libre pour les créneaux (ex: soirs, week-end...)
+  exchangeSubject String?  // matière souhaitée en échange (pour les offres EXCHANGE)
+
+  capacity       Int?
+
+  teacherId      String?
+  teacher        User?           @relation("TeacherCourses", fields: [teacherId], references: [id])
+
+  slots          CourseSlot[]
+  requests       CourseRequest[]
+
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model CourseSlot {
+  id          String   @id @default(cuid())
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  // Date et heure du créneau
+  startTime   DateTime
+  endTime     DateTime?
+
+  // Lieu si présentiel ou mixte
+  location    String?
+
+  // Description optionnelle du créneau (ex : groupe max 5 personnes)
+  notes       String?
+
+  createdAt   DateTime @default(now())
+}
+
+model CourseRequest {
+  id               String         @id @default(cuid())
+  courseId         String
+  course           Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  studentId        String?
+  student          User?          @relation(fields: [studentId], references: [id], onDelete: SetNull)
+
+  studentName      String?
+  studentEmail     String
+  paymentMethod    PaymentMethod
+  proposedTime     String
+  proposedLocation String?
+  message          String?
+
+  status           RequestStatus  @default(PENDING)
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+
+
+

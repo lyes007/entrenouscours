@@ -1,26 +1,87 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-ecru: #efece3;
+    --color-soft-blue: #8fabd4;
+    --color-deep-blue: #4a70a9;
+    --color-black: #000000;
+  }
+
+  body {
+    background-color: var(--color-ecru);
+    color: var(--color-black);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out both;
+  }
+
+  .ui-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: rgba(239, 236, 227, 0.6);
+    padding: 0.45rem 2.5rem 0.45rem 0.9rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    outline: none;
+    background-image: linear-gradient(
+        135deg,
+        transparent 0%,
+        transparent 60%,
+        rgba(74, 112, 169, 0.12) 100%
+      ),
+      url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='%234A70A9' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center, 0 0;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease,
+      background-color 0.15s ease, transform 0.12s ease;
+  }
+
+  .ui-select:focus {
+    border-color: var(--color-deep-blue);
+    box-shadow: 0 0 0 1px rgba(74, 112, 169, 0.35);
+    background-color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .ui-input-chip {
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: #ffffff;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease,
+      transform 0.12s ease;
+  }
+
+  .ui-input-chip:focus {
+    border-color: var(--color-deep-blue);
+    box-shadow: 0 0 0 1px rgba(74, 112, 169, 0.3);
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
