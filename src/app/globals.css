@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @layer base {
-  :root {
+:root {
     --color-ecru: #efece3;
     --color-soft-blue: #8fabd4;
     --color-deep-blue: #4a70a9;

@@ -16,27 +16,27 @@ export default function Home() {
               Apprends et enseigne
               <br />
               <span className="text-[#4A70A9]">entre étudiants et professeurs</span>
-            </h1>
+          </h1>
             <p className="max-w-xl text-base leading-relaxed text-black/70">
               EntreNousCours connecte les étudiants tunisiens et les enseignants
               pour des cours en ligne via Google Meet ou en présentiel. Publie
               tes compétences, trouve de l&apos;aide, et construis ton parcours
               à ton rythme.
-            </p>
+          </p>
             <div className="flex flex-wrap items-center gap-4">
-              <a
+          <a
                 href="/courses"
                 className="rounded-full bg-[#4A70A9] px-6 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-[#8FABD4]"
               >
                 Découvrir les cours disponibles
-              </a>
-              <a
+          </a>
+          <a
                 href="/courses/new"
                 className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm font-medium text-[#000000] hover:border-[#4A70A9] hover:text-[#4A70A9]"
               >
                 Proposer un cours Google Meet
-              </a>
-            </div>
+          </a>
+        </div>
             <p className="text-xs text-black/60">
               Cours individuels ou en petits groupes · Evaluation après chaque
               session · Accès gratuit à la plateforme

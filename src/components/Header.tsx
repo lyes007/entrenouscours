@@ -48,6 +48,12 @@ export function Header() {
           {status === "authenticated" && user ? (
             <>
               <Link
+                href="/my-courses"
+                className="text-sm font-medium text-[#000000] transition-colors hover:text-[#4A70A9]"
+              >
+                Mes cours
+              </Link>
+              <Link
                 href="/profile"
                 className="flex items-center gap-2 text-sm text-black/80 transition-colors hover:text-[#4A70A9]"
               >
@@ -195,13 +201,22 @@ export function Header() {
               Voir les cours
             </Link>
             {status === "authenticated" && (
-              <Link
-                href="/profile"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-[#000000] transition-colors hover:bg-[#4A70A9]/10 hover:text-[#4A70A9]"
-              >
-                Mon profil
-              </Link>
+              <>
+                <Link
+                  href="/my-courses"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block rounded-xl px-3 py-2.5 text-sm font-medium text-[#000000] transition-colors hover:bg-[#4A70A9]/10 hover:text-[#4A70A9]"
+                >
+                  Mes cours
+                </Link>
+                <Link
+                  href="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block rounded-xl px-3 py-2.5 text-sm font-medium text-[#000000] transition-colors hover:bg-[#4A70A9]/10 hover:text-[#4A70A9]"
+                >
+                  Mon profil
+                </Link>
+              </>
             )}
           </nav>
 
