@@ -47,7 +47,10 @@ export function Header() {
         <div className="hidden items-center gap-3 md:flex">
           {status === "authenticated" && user ? (
             <>
-              <div className="flex items-center gap-2 text-sm text-black/80">
+              <Link
+                href="/profile"
+                className="flex items-center gap-2 text-sm text-black/80 transition-colors hover:text-[#4A70A9]"
+              >
                 {user.image && (
                   <Image
                     src={user.image}
@@ -58,9 +61,9 @@ export function Header() {
                   />
                 )}
                 <span className="hidden max-w-[140px] truncate lg:inline">
-                  Bonjour, <span className="font-semibold">{user.name ?? user.email}</span>
+                  Mon profil
                 </span>
-              </div>
+              </Link>
               <button
                 onClick={() => signOut()}
                 className="rounded-full border border-black/10 px-4 py-1.5 text-sm font-medium text-[#000000] transition-colors hover:border-[#4A70A9] hover:text-[#4A70A9]"
@@ -131,7 +134,11 @@ export function Header() {
         <div className="border-t border-black/5 bg-white px-4 pb-6 pt-4">
           {/* Mobile User Info */}
           {status === "authenticated" && user && (
-            <div className="mb-4 flex items-center gap-3 rounded-2xl bg-[#EFECE3] p-3">
+            <Link
+              href="/profile"
+              onClick={() => setMobileMenuOpen(false)}
+              className="mb-4 flex items-center gap-3 rounded-2xl bg-[#EFECE3] p-3 transition-colors hover:bg-[#4A70A9]/10"
+            >
               {user.image && (
                 <Image
                   src={user.image}
@@ -147,7 +154,7 @@ export function Header() {
                 </p>
                 <p className="truncate text-xs text-black/60">{user.email}</p>
               </div>
-            </div>
+            </Link>
           )}
 
           {/* Mobile Navigation Links */}
@@ -187,6 +194,15 @@ export function Header() {
             >
               Voir les cours
             </Link>
+            {status === "authenticated" && (
+              <Link
+                href="/profile"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-[#000000] transition-colors hover:bg-[#4A70A9]/10 hover:text-[#4A70A9]"
+              >
+                Mon profil
+              </Link>
+            )}
           </nav>
 
           {/* Mobile Auth Buttons */}

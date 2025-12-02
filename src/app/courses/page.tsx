@@ -127,9 +127,21 @@ export default async function CoursesPage() {
                         : "Échange de compétences, matière à définir")}
                   </p>
                   {course.teacher && (
-                    <p className="mt-2 text-xs text-black/60">
-                      Proposé par {course.teacher.name ?? course.teacher.email}
-                    </p>
+                    <div className="mt-3 flex items-center justify-between rounded-xl border border-black/5 bg-[#EFECE3]/60 p-2">
+                      <div className="flex items-center gap-2">
+                        <div>
+                          <p className="text-xs font-medium text-[#000000]">
+                            Enseignant
+                          </p>
+                          <a
+                            href={`/profile/${course.teacher.id}`}
+                            className="text-xs text-[#4A70A9] hover:underline"
+                          >
+                            {course.teacher.name ?? course.teacher.email} →
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   )}
                   <a
                     href={`/courses/${course.id}`}

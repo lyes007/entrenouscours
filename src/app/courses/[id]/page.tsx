@@ -84,10 +84,17 @@ export default async function CourseDetailPage({ params }: PageParams) {
                 </p>
               </div>
               {course.teacher && (
-                <div>
+                <div className="md:col-span-2">
                   <p className="font-semibold text-[#000000]">Enseignant</p>
-                  <p className="mt-1">
-                    {course.teacher.name ?? course.teacher.email}
+                  <a
+                    href={`/profile/${course.teacher.id}`}
+                    className="mt-1 inline-flex items-center gap-2 rounded-xl border border-[#4A70A9]/20 bg-[#EFECE3]/60 px-3 py-2 text-sm text-[#4A70A9] transition-colors hover:bg-[#4A70A9]/10"
+                  >
+                    <span>{course.teacher.name ?? course.teacher.email}</span>
+                    <span>→</span>
+                  </a>
+                  <p className="mt-1 text-xs text-black/60">
+                    Cliquez pour voir le profil complet, les certificats et les projets
                   </p>
                 </div>
               )}

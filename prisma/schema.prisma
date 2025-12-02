@@ -26,6 +26,7 @@ model User {
   sessions       Session[]
   courses        Course[]        @relation("TeacherCourses")
   courseRequests CourseRequest[]
+  profile        UserProfile?
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -158,6 +159,31 @@ model CourseRequest {
 
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
+}
+
+model UserProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Informations générales
+  bio         String?  @db.Text
+  phone       String?
+  location    String?
+
+  // Médias
+  videos      String[] // URLs des vidéos (YouTube, Vimeo, etc.)
+  images      String[] // URLs des images
+
+  // Projets et liens
+  projectLinks Json?   // Array of { name: string, url: string, description?: string }
+
+  // Documents
+  resumeUrl   String?  // URL du CV/Resume
+  certificates Json?   // Array of { name: string, issuer: string, date?: string, url?: string }
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 
