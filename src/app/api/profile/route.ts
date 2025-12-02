@@ -58,11 +58,11 @@ export async function PUT(request: Request) {
     const cleanProjectLinks =
       Array.isArray(projectLinks) && projectLinks.length > 0
         ? projectLinks.filter((p: any) => p.name && p.url)
-        : null;
+        : undefined;
     const cleanCertificates =
       Array.isArray(certificates) && certificates.length > 0
         ? certificates.filter((c: any) => c.name && c.issuer)
-        : null;
+        : undefined;
 
     // Upsert profile
     const profile = await prisma.userProfile.upsert({
@@ -73,9 +73,9 @@ export async function PUT(request: Request) {
         location: location || null,
         videos: cleanVideos,
         images: cleanImages,
-        projectLinks: cleanProjectLinks ? cleanProjectLinks : null,
+      projectLinks: cleanProjectLinks ?? undefined,
         resumeUrl: resumeUrl || null,
-        certificates: cleanCertificates ? cleanCertificates : null,
+      certificates: cleanCertificates ?? undefined,
         updatedAt: new Date(),
       },
       create: {
@@ -85,9 +85,9 @@ export async function PUT(request: Request) {
         location: location || null,
         videos: cleanVideos,
         images: cleanImages,
-        projectLinks: cleanProjectLinks ? cleanProjectLinks : null,
+      projectLinks: cleanProjectLinks ?? undefined,
         resumeUrl: resumeUrl || null,
-        certificates: cleanCertificates ? cleanCertificates : null,
+      certificates: cleanCertificates ?? undefined,
       },
     });
 
