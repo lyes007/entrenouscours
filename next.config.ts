@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
         hostname: "lh3.googleusercontent.com",
       },
     ],
+    // Allow local images from public/uploads
+    unoptimized: false,
   },
 };
 

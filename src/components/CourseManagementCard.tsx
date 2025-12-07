@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { DeleteCourseButton } from "./DeleteCourseButton";
+import { CourseImage } from "./CourseImage";
 
 type RequestStatus = "PENDING" | "ACCEPTED" | "DECLINED";
 type Modality = "ONLINE" | "IN_PERSON" | "FLEXIBLE";
@@ -40,6 +41,7 @@ interface Course {
   pricePerHour: number | null;
   currency: string;
   exchangeSubject: string | null;
+  imageUrl: string | null;
   slots: CourseSlot[];
   requests: CourseRequest[];
 }
@@ -77,94 +79,99 @@ export function CourseManagementCard({ course }: CourseManagementCardProps) {
 
   return (
     <div
-      className={`rounded-2xl border bg-white shadow-sm transition-all ${
+      className={`rounded-xl border shadow-lg transition-all overflow-hidden ${
         pendingCount > 0
-          ? "border-orange-200 bg-orange-50/30"
-          : "border-black/5 bg-white"
+          ? "border-orange-200 bg-orange-50/80 backdrop-blur-sm"
+          : "border-white/20 bg-white/95 backdrop-blur-sm"
       }`}
     >
-      <div className="p-6">
-        {/* Course Header */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <h3 className="text-lg font-semibold text-[#000000]">{course.title}</h3>
-              {pendingCount > 0 && (
-                <span className="rounded-full bg-orange-100 px-2 py-0.5 text-xs font-semibold text-orange-700">
-                  {pendingCount} en attente
+      <div className="grid grid-cols-[100px,1fr] gap-2 p-2 sm:p-3">
+        <div className="relative h-20 sm:h-24 rounded-lg overflow-hidden">
+          <CourseImage
+            imageUrl={course.imageUrl}
+            alt={course.title}
+            width={100}
+            height={96}
+            className="w-full h-full object-cover"
+            fill
+          />
+        </div>
+        <div className="min-w-0 space-y-1">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <h3 className="text-sm font-bold text-[#000000] line-clamp-1">{course.title}</h3>
+                {pendingCount > 0 && (
+                  <span className="rounded-full bg-orange-100 px-1.5 py-0.5 text-[10px] font-semibold text-orange-700">
+                    {pendingCount}
+                  </span>
+                )}
+              </div>
+              <p className="text-[10px] font-medium uppercase tracking-wide text-[#4A70A9] mt-0.5">
+                {course.subject} · {course.level}
+              </p>
+              <p className="text-[11px] text-black/70 line-clamp-1 mt-0.5">{course.description}</p>
+              
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1 text-[10px] text-black/60">
+                <span>
+                  {course.modality === "ONLINE" && "En ligne"}
+                  {course.modality === "IN_PERSON" && "Présentiel"}
+                  {course.modality === "FLEXIBLE" && "Flexible"}
                 </span>
-              )}
-            </div>
-            <p className="mt-1 text-xs font-medium uppercase tracking-wide text-[#4A70A9]">
-              {course.subject} · {course.level}
-            </p>
-            <p className="mt-2 text-sm text-black/70 line-clamp-2">{course.description}</p>
-
-            <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-black/60">
-              <span>
-                {course.modality === "ONLINE" && "En ligne"}
-                {course.modality === "IN_PERSON" && "Présentiel"}
-                {course.modality === "FLEXIBLE" && "Flexible"}
-              </span>
-              <span>•</span>
-              <span>
-                {course.offerType === "FREE" && "Gratuit"}
-                {course.offerType === "PAID" &&
-                  (course.pricePerHour
-                    ? `${course.pricePerHour} ${course.currency}/h`
-                    : "Payant")}
-                {course.offerType === "EXCHANGE" &&
-                  (course.exchangeSubject
-                    ? `Échange: ${course.exchangeSubject}`
-                    : "Échange")}
-              </span>
-              <span>•</span>
-              <span>{course.slots.length} créneau{course.slots.length > 1 ? "x" : ""}</span>
+                <span>•</span>
+                <span>
+                  {course.offerType === "FREE" && "Gratuit"}
+                  {course.offerType === "PAID" &&
+                    (course.pricePerHour
+                      ? `${course.pricePerHour} ${course.currency}/h`
+                      : "Payant")}
+                  {course.offerType === "EXCHANGE" && "Échange"}
+                </span>
+                <span>•</span>
+                <span>{course.slots.length} créneau{course.slots.length > 1 ? "x" : ""}</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Request Statistics */}
-        {course.requests.length > 0 && (
-          <div className="mt-4 flex items-center gap-4 rounded-xl bg-[#EFECE3]/60 p-3">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-black/60">Demandes :</span>
+          {/* Request Statistics - Compact */}
+          {course.requests.length > 0 && (
+            <div className="flex items-center gap-1.5 pt-1">
+              <span className="text-[10px] font-medium text-black/60">Demandes:</span>
               {pendingCount > 0 && (
-                <span className="rounded-full bg-orange-100 px-2 py-0.5 text-xs font-semibold text-orange-700">
-                  {pendingCount} en attente
+                <span className="rounded-full bg-orange-100 px-1.5 py-0.5 text-[9px] font-semibold text-orange-700">
+                  {pendingCount}
                 </span>
               )}
               {acceptedCount > 0 && (
-                <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
-                  {acceptedCount} acceptée{acceptedCount > 1 ? "s" : ""}
+                <span className="rounded-full bg-green-100 px-1.5 py-0.5 text-[9px] font-semibold text-green-700">
+                  {acceptedCount}
                 </span>
               )}
               {declinedCount > 0 && (
-                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                  {declinedCount} refusée{declinedCount > 1 ? "s" : ""}
+                <span className="rounded-full bg-gray-100 px-1.5 py-0.5 text-[9px] font-semibold text-gray-600">
+                  {declinedCount}
                 </span>
               )}
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Actions */}
-        <div className="mt-4 flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="rounded-full border border-[#4A70A9] px-4 py-1.5 text-xs font-medium text-[#4A70A9] transition-colors hover:bg-[#4A70A9] hover:text-white"
-          >
-            {isExpanded ? "Masquer" : "Voir"} les demandes (
-            {course.requests.length})
-          </button>
-          <Link
-            href={`/courses/${course.id}`}
-            className="rounded-full border border-black/10 px-4 py-1.5 text-xs font-medium text-[#000000] transition-colors hover:border-[#4A70A9] hover:text-[#4A70A9]"
-          >
-            Voir le cours
-          </Link>
-          <DeleteCourseButton courseId={course.id} />
+          {/* Actions - Compact */}
+          <div className="flex flex-wrap items-center gap-1.5 pt-1">
+            <button
+              type="button"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="rounded-lg border border-[#4A70A9] px-2 py-0.5 text-[10px] font-medium text-[#4A70A9] transition-colors hover:bg-[#4A70A9] hover:text-white"
+            >
+              {isExpanded ? "Masquer" : "Voir"} ({course.requests.length})
+            </button>
+            <Link
+              href={`/courses/${course.id}`}
+              className="rounded-lg border border-black/10 px-2 py-0.5 text-[10px] font-medium text-[#000000] transition-colors hover:border-[#4A70A9] hover:text-[#4A70A9]"
+            >
+              Voir
+            </Link>
+            <DeleteCourseButton courseId={course.id} />
+          </div>
         </div>
       </div>
 

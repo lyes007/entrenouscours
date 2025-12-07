@@ -4,8 +4,8 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
-import { Header } from "@/components/Header";
 import { ProfileEditButton } from "@/components/ProfileEditButton";
+import { CourseImage } from "@/components/CourseImage";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
@@ -54,58 +54,55 @@ export default async function ProfilePage() {
   ].reduce((a, b) => a + b, 0);
 
   return (
-    <div className="min-h-screen bg-[#EFECE3]">
-      <Header />
-      <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
-        {/* Header */}
-        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div className="flex items-center gap-4">
-            {user.image && (
-              <Image
-                src={user.image}
-                alt={user.name ?? "Profil"}
-                width={80}
-                height={80}
-                className="rounded-full border-4 border-white shadow-lg"
-              />
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 sm:py-5">
+        {/* Header - Compact */}
+        <div className="mb-4 flex items-center gap-3">
+          {user.image && (
+            <Image
+              src={user.image}
+              alt={user.name ?? "Profil"}
+              width={48}
+              height={48}
+              className="rounded-full border-2 border-white shadow-lg"
+            />
+          )}
+          <div className="flex-1 min-w-0">
+            <h1 className="text-lg sm:text-xl font-bold text-white truncate">
+              {user.name ?? "Utilisateur"}
+            </h1>
+            <p className="text-[11px] text-white/80 truncate">{user.email}</p>
+            {profile?.location && (
+              <p className="text-[10px] text-white/70">📍 {profile.location}</p>
             )}
-            <div>
-              <h1 className="text-3xl font-bold text-[#000000]">
-                {user.name ?? "Utilisateur"}
-              </h1>
-              <p className="text-black/60">{user.email}</p>
-              {profile?.location && (
-                <p className="mt-1 text-sm text-black/60">📍 {profile.location}</p>
-              )}
-            </div>
           </div>
           <ProfileEditButton />
         </div>
 
-        {/* Validation Badge */}
-        <div className="mb-8 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="flex items-center justify-between">
+        {/* Validation Badge - Compact */}
+        <div className="mb-3 rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
+          <div className="flex items-center justify-between mb-2">
             <div>
-              <h2 className="text-lg font-semibold text-[#000000]">Profil vérifié</h2>
-              <p className="mt-1 text-sm text-black/60">
-                {validationScore}/6 éléments de validation complétés
+              <h2 className="text-sm font-semibold text-[#000000]">Profil vérifié</h2>
+              <p className="text-[10px] text-black/60">
+                {validationScore}/6 complétés
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="h-3 w-24 rounded-full bg-black/10">
+              <div className="h-2 w-16 rounded-full bg-black/10">
                 <div
                   className="h-full rounded-full bg-[#4A70A9] transition-all"
                   style={{ width: `${(validationScore / 6) * 100}%` }}
                 />
               </div>
               {validationScore >= 4 ? (
-                <span className="text-xs font-semibold text-green-600">✓ Vérifié</span>
+                <span className="text-[10px] font-semibold text-green-600">✓</span>
               ) : (
-                <span className="text-xs font-semibold text-orange-600">En cours</span>
+                <span className="text-[10px] font-semibold text-orange-600">...</span>
               )}
             </div>
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-2 text-xs md:grid-cols-3">
+          <div className="grid grid-cols-3 gap-1.5 text-[10px]">
             <div className={`flex items-center gap-2 ${profile?.bio ? "text-green-600" : "text-black/40"}`}>
               {profile?.bio ? "✓" : "○"} Bio complétée
             </div>
@@ -127,19 +124,19 @@ export default async function ProfilePage() {
           </div>
         </div>
 
-        {/* Bio */}
+        {/* Bio - Compact */}
         {profile?.bio && (
-          <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-3 text-xl font-semibold text-[#000000]">À propos</h2>
-            <p className="text-black/80 leading-relaxed">{profile.bio}</p>
+          <div className="mb-3 rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
+            <h2 className="mb-2 text-sm font-semibold text-[#000000]">À propos</h2>
+            <p className="text-[11px] text-black/80 line-clamp-3 leading-snug">{profile.bio}</p>
           </div>
         )}
 
-        {/* Videos */}
+        {/* Videos - Compact */}
         {profile?.videos && profile.videos.length > 0 && (
-          <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-[#000000]">Vidéos</h2>
-            <div className="grid gap-4 md:grid-cols-2">
+          <div className="mb-3 rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
+            <h2 className="mb-2 text-sm font-semibold text-[#000000]">Vidéos</h2>
+            <div className="grid grid-cols-2 gap-2">
               {profile.videos.map((videoUrl, idx) => (
                 <div key={idx} className="aspect-video rounded-xl overflow-hidden bg-black/5">
                   {videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be") ? (
@@ -161,11 +158,11 @@ export default async function ProfilePage() {
           </div>
         )}
 
-        {/* Images */}
+        {/* Images - Compact */}
         {profile?.images && profile.images.length > 0 && (
-          <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-[#000000]">Galerie</h2>
-            <div className="grid gap-4 md:grid-cols-3">
+          <div className="mb-3 rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
+            <h2 className="mb-2 text-sm font-semibold text-[#000000]">Galerie</h2>
+            <div className="grid grid-cols-3 gap-2">
               {profile.images.map((imageUrl, idx) => (
                 <div key={idx} className="relative aspect-square overflow-hidden rounded-xl">
                   <Image
@@ -180,21 +177,21 @@ export default async function ProfilePage() {
           </div>
         )}
 
-        {/* Project Links */}
+        {/* Project Links - Compact */}
         {projectLinks.length > 0 && (
-          <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-[#000000]">Projets</h2>
-            <div className="space-y-3">
+          <div className="mb-3 rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
+            <h2 className="mb-2 text-sm font-semibold text-[#000000]">Projets</h2>
+            <div className="space-y-2">
               {projectLinks.map((project: any, idx: number) => (
                 <a
                   key={idx}
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-3 rounded-xl border border-black/10 p-4 transition-colors hover:border-[#4A70A9] hover:bg-[#4A70A9]/5"
+                  className="flex items-start gap-2 rounded-lg border border-black/10 p-2 transition-colors hover:border-[#4A70A9] hover:bg-[#4A70A9]/5"
                 >
                   <svg
-                    className="mt-0.5 h-5 w-5 flex-shrink-0 text-[#4A70A9]"
+                    className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#4A70A9]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -207,11 +204,11 @@ export default async function ProfilePage() {
                     />
                   </svg>
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-[#000000]">{project.name}</p>
+                    <p className="text-xs font-medium text-[#000000] truncate">{project.name}</p>
                     {project.description && (
-                      <p className="mt-1 text-sm text-black/60">{project.description}</p>
+                      <p className="text-[10px] text-black/60 line-clamp-1">{project.description}</p>
                     )}
-                    <p className="mt-1 text-xs text-[#4A70A9]">{project.url}</p>
+                    <p className="text-[9px] text-[#4A70A9] truncate">{project.url}</p>
                   </div>
                 </a>
               ))}
@@ -219,18 +216,18 @@ export default async function ProfilePage() {
           </div>
         )}
 
-        {/* Resume */}
+        {/* Resume - Compact */}
         {profile?.resumeUrl && (
-          <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-[#000000]">CV / Résumé</h2>
+          <div className="mb-3 rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
+            <h2 className="mb-2 text-sm font-semibold text-[#000000]">CV / Résumé</h2>
             <a
               href={profile.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#4A70A9] px-6 py-3 text-white transition-colors hover:bg-[#8FABD4]"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#4A70A9] px-3 py-1.5 text-xs text-white transition-colors hover:bg-[#8FABD4]"
             >
               <svg
-                className="h-5 w-5"
+                className="h-4 w-4"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -242,24 +239,24 @@ export default async function ProfilePage() {
                   d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
-              Télécharger le CV
+              Télécharger
             </a>
           </div>
         )}
 
-        {/* Certificates */}
+        {/* Certificates - Compact */}
         {certificates.length > 0 && (
-          <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-[#000000]">Certificats</h2>
-            <div className="space-y-3">
+          <div className="mb-3 rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
+            <h2 className="mb-2 text-sm font-semibold text-[#000000]">Certificats</h2>
+            <div className="space-y-2">
               {certificates.map((cert: any, idx: number) => (
                 <div
                   key={idx}
-                  className="flex items-start gap-4 rounded-xl border border-black/10 p-4"
+                  className="flex items-start gap-2 rounded-lg border border-black/10 p-2"
                 >
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-[#4A70A9]/10">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#4A70A9]/10">
                     <svg
-                      className="h-6 w-6 text-[#4A70A9]"
+                      className="h-4 w-4 text-[#4A70A9]"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -273,19 +270,19 @@ export default async function ProfilePage() {
                     </svg>
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-[#000000]">{cert.name}</p>
-                    <p className="text-sm text-black/60">{cert.issuer}</p>
+                    <p className="text-xs font-medium text-[#000000] truncate">{cert.name}</p>
+                    <p className="text-[10px] text-black/60 truncate">{cert.issuer}</p>
                     {cert.date && (
-                      <p className="mt-1 text-xs text-black/50">Obtenu le {cert.date}</p>
+                      <p className="text-[9px] text-black/50">Obtenu le {cert.date}</p>
                     )}
                     {cert.url && (
                       <a
                         href={cert.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-2 inline-block text-xs text-[#4A70A9] hover:underline"
+                        className="text-[9px] text-[#4A70A9] hover:underline"
                       >
-                        Voir le certificat →
+                        Voir →
                       </a>
                     )}
                   </div>
@@ -295,23 +292,34 @@ export default async function ProfilePage() {
           </div>
         )}
 
-        {/* Courses */}
+        {/* Courses - Compact Grid */}
         {user.courses.length > 0 && (
-          <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-[#000000]">Mes cours</h2>
-            <div className="space-y-3">
+          <div className="mb-3 rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
+            <h2 className="mb-2 text-sm font-semibold text-[#000000]">Mes cours</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {user.courses.map((course) => (
                 <Link
                   key={course.id}
                   href={`/courses/${course.id}`}
-                  className="block rounded-xl border border-black/10 p-4 transition-colors hover:border-[#4A70A9] hover:bg-[#4A70A9]/5"
+                  className="block overflow-hidden rounded-lg border border-black/10 transition-colors hover:border-[#4A70A9] hover:bg-[#4A70A9]/5"
                 >
-                  <h3 className="font-semibold text-[#000000]">{course.title}</h3>
-                  <p className="mt-1 text-sm text-black/60">{course.subject} • {course.level}</p>
-                  <p className="mt-2 text-xs text-black/50">
-                    {course.slots.length} créneau{course.slots.length > 1 ? "x" : ""} disponible
-                    {course.slots.length > 1 ? "s" : ""}
-                  </p>
+                  <div className="relative h-16">
+                    <CourseImage
+                      imageUrl={course.imageUrl}
+                      alt={course.title}
+                      width={200}
+                      height={64}
+                      className="w-full h-full object-cover"
+                      fill
+                    />
+                  </div>
+                  <div className="p-2">
+                    <h3 className="text-[11px] font-semibold text-[#000000] line-clamp-1">{course.title}</h3>
+                    <p className="text-[9px] text-black/60">{course.subject} • {course.level}</p>
+                    <p className="text-[9px] text-black/50">
+                      {course.slots.length} créneau{course.slots.length > 1 ? "x" : ""}
+                    </p>
+                  </div>
                 </Link>
               ))}
             </div>
@@ -320,8 +328,8 @@ export default async function ProfilePage() {
 
         {/* Empty State */}
         {!profile && (
-          <div className="rounded-2xl bg-white p-8 text-center shadow-sm">
-            <p className="mb-4 text-black/60">
+          <div className="rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-4 text-center shadow-lg">
+            <p className="mb-3 text-xs text-black/60">
               Votre profil est vide. Complétez-le pour aider les étudiants à vous connaître mieux.
             </p>
             <ProfileEditButton />

@@ -56,91 +56,91 @@ export function JoinCourseForm({ courseId }: { courseId: string }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 rounded-2xl border border-black/5 bg-white p-5 shadow-sm"
+      className="rounded-2xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 sm:p-4 shadow-lg space-y-2"
     >
-      <h3 className="text-sm font-semibold uppercase tracking-wide text-[#4A70A9]">
-        Demander à rejoindre ce cours
+      <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[#4A70A9] mb-2">
+        Rejoindre ce cours
       </h3>
 
-      <div className="grid gap-3 md:grid-cols-2">
+      <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="block text-xs font-medium text-[#000000]">
-            Mode de paiement souhaité
+          <label className="block text-[10px] font-medium text-[#000000] mb-0.5">
+            Paiement
           </label>
           <select
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-            className="mt-1 w-full ui-select"
+            className="w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
           >
             <option value="CASH">Espèce</option>
             <option value="CARD">Carte</option>
-            <option value="EXCHANGE">Échange de services</option>
+            <option value="EXCHANGE">Échange</option>
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-[#000000]">
-            Email de contact
+          <label className="block text-[10px] font-medium text-[#000000] mb-0.5">
+            Email *
           </label>
           <input
             type="email"
             required
             value={contactEmail}
             onChange={(e) => setContactEmail(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-black/10 bg-[#EFECE3]/60 px-3 py-1.5 text-xs outline-none focus:border-[#4A70A9] focus:bg-white"
-            placeholder="ton.email@example.com"
+            className="w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
+            placeholder="email@ex.com"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-[#000000]">
-          Proposition de créneau / horaire
+        <label className="block text-[10px] font-medium text-[#000000] mb-0.5">
+          Créneau proposé *
         </label>
         <input
           type="text"
           required
           value={proposedTime}
           onChange={(e) => setProposedTime(e.target.value)}
-          className="mt-1 w-full rounded-xl border border-black/10 bg-[#EFECE3]/60 px-3 py-1.5 text-xs outline-none focus:border-[#4A70A9] focus:bg-white"
-          placeholder="Ex : Samedi 15h-17h, ou soir en semaine après 19h"
+          className="w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
+          placeholder="Ex: Samedi 15h-17h"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-[#000000]">
-          Lieu proposé (si présentiel ou flexible)
+        <label className="block text-[10px] font-medium text-[#000000] mb-0.5">
+          Lieu (si présentiel)
         </label>
         <input
           type="text"
           value={proposedLocation}
           onChange={(e) => setProposedLocation(e.target.value)}
-          className="mt-1 w-full rounded-xl border border-black/10 bg-[#EFECE3]/60 px-3 py-1.5 text-xs outline-none focus:border-[#4A70A9] focus:bg-white"
-          placeholder="Ex : bibliothèque de la fac, café calme au centre-ville..."
+          className="w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
+          placeholder="Ex: Bibliothèque, café..."
         />
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-[#000000]">
-          Message pour l&apos;enseignant (optionnel)
+        <label className="block text-[10px] font-medium text-[#000000] mb-0.5">
+          Message (optionnel)
         </label>
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          rows={3}
-          className="mt-1 w-full rounded-xl border border-black/10 bg-[#EFECE3]/60 px-3 py-1.5 text-xs outline-none focus:border-[#4A70A9] focus:bg-white"
-          placeholder="Présente-toi rapidement, précise ton niveau et tes attentes..."
+          rows={2}
+          className="w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20 resize-none"
+          placeholder="Présente-toi rapidement..."
         />
       </div>
 
-      {error && <p className="text-xs text-red-600">{error}</p>}
-      {success && <p className="text-xs text-green-700">{success}</p>}
+      {error && <p className="text-[10px] text-red-600">{error}</p>}
+      {success && <p className="text-[10px] text-green-700">{success}</p>}
 
       <button
         type="submit"
         disabled={isPending}
-        className="rounded-full bg-[#4A70A9] px-5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-[#8FABD4] disabled:opacity-60"
+        className="w-full rounded-lg bg-[#4A70A9] px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm hover:bg-[#8FABD4] disabled:opacity-60 transition-colors"
       >
-        {isPending ? "Envoi en cours..." : "Envoyer la demande"}
+        {isPending ? "Envoi..." : "Envoyer la demande"}
       </button>
     </form>
   );

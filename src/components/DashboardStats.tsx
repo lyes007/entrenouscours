@@ -14,18 +14,18 @@ export function DashboardStats({
   declinedRequests,
 }: DashboardStatsProps) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
+      <div className="rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-black/60">
+            <p className="text-[10px] font-medium uppercase tracking-wide text-black/60">
               Total cours
             </p>
-            <p className="mt-2 text-2xl font-bold text-[#000000]">{totalCourses}</p>
+            <p className="mt-1 text-xl font-bold text-[#000000]">{totalCourses}</p>
           </div>
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#4A70A9]/10">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#4A70A9]/10">
             <svg
-              className="h-6 w-6 text-[#4A70A9]"
+              className="h-4 w-4 text-[#4A70A9]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -41,17 +41,17 @@ export function DashboardStats({
         </div>
       </div>
 
-      <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
+      <div className="rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-black/60">
+            <p className="text-[10px] font-medium uppercase tracking-wide text-black/60">
               Demandes totales
             </p>
-            <p className="mt-2 text-2xl font-bold text-[#000000]">{totalRequests}</p>
+            <p className="mt-1 text-xl font-bold text-[#000000]">{totalRequests}</p>
           </div>
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#8FABD4]/20">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8FABD4]/20">
             <svg
-              className="h-6 w-6 text-[#4A70A9]"
+              className="h-4 w-4 text-[#4A70A9]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -67,17 +67,17 @@ export function DashboardStats({
         </div>
       </div>
 
-      <div className="rounded-2xl border-2 border-orange-200 bg-orange-50/50 p-5 shadow-sm">
+      <div className="rounded-xl border-2 border-orange-200 bg-orange-50/80 backdrop-blur-sm p-3 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-orange-700">
+            <p className="text-[10px] font-medium uppercase tracking-wide text-orange-700">
               En attente
             </p>
-            <p className="mt-2 text-2xl font-bold text-orange-700">{pendingRequests}</p>
+            <p className="mt-1 text-xl font-bold text-orange-700">{pendingRequests}</p>
           </div>
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-100">
             <svg
-              className="h-6 w-6 text-orange-600"
+              className="h-4 w-4 text-orange-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -93,17 +93,17 @@ export function DashboardStats({
         </div>
       </div>
 
-      <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
+      <div className="rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-black/60">
+            <p className="text-[10px] font-medium uppercase tracking-wide text-black/60">
               Acceptées
             </p>
-            <p className="mt-2 text-2xl font-bold text-green-600">{acceptedRequests}</p>
+            <p className="mt-1 text-xl font-bold text-green-600">{acceptedRequests}</p>
           </div>
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-100">
             <svg
-              className="h-6 w-6 text-green-600"
+              className="h-4 w-4 text-green-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

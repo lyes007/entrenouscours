@@ -2,16 +2,42 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 export function Header() {
   const { data: session, status } = useSession();
   const user = session?.user;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isOverVideo, setIsOverVideo] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Only apply on home page (pathname is "/")
+      if (pathname !== "/") {
+        setIsOverVideo(false);
+        return;
+      }
+      
+      // Check if we're within the video section height
+      // Video section typically extends to around 600-700px from top
+      const scrollY = window.scrollY;
+      const videoSectionHeight = 700; // Approximate height of video section
+      setIsOverVideo(scrollY < videoSectionHeight);
+    };
+
+    // Check initial state
+    handleScroll();
+
+    // Add scroll listener
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-white/20 bg-transparent backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6 md:py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 md:gap-3">
@@ -22,23 +48,35 @@ export function Header() {
             height={36}
             className="md:h-10 md:w-10"
           />
-          <span className="text-base font-semibold tracking-tight text-[#000000] md:text-lg">
-            Entre<span className="text-[#4A70A9]">Nous</span>Cours
+          <span className={`text-base font-semibold tracking-tight md:text-lg transition-colors ${
+            isOverVideo ? "text-white" : "text-[#000000]"
+          }`}>
+            Entre<span className={isOverVideo ? "text-white" : "text-[#4A70A9]"}>Nous</span>Cours
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-6 text-sm font-medium text-[#000000] lg:flex">
-          <a href="/#fonctionnement" className="transition-colors hover:text-[#4A70A9]">
+        <nav className={`hidden items-center gap-6 text-sm font-medium lg:flex transition-colors ${
+          isOverVideo ? "text-white" : "text-[#000000]"
+        }`}>
+          <a href="/#fonctionnement" className={`transition-colors ${
+            isOverVideo ? "hover:text-white/80" : "hover:text-[#4A70A9]"
+          }`}>
             Fonctionnement
           </a>
-          <a href="/#offre" className="transition-colors hover:text-[#4A70A9]">
+          <a href="/#offre" className={`transition-colors ${
+            isOverVideo ? "hover:text-white/80" : "hover:text-[#4A70A9]"
+          }`}>
             Pour les étudiants
           </a>
-          <a href="/#enseignants" className="transition-colors hover:text-[#4A70A9]">
+          <a href="/#enseignants" className={`transition-colors ${
+            isOverVideo ? "hover:text-white/80" : "hover:text-[#4A70A9]"
+          }`}>
             Pour les enseignants
           </a>
-          <a href="/#temoignages" className="transition-colors hover:text-[#4A70A9]">
+          <a href="/#temoignages" className={`transition-colors ${
+            isOverVideo ? "hover:text-white/80" : "hover:text-[#4A70A9]"
+          }`}>
             Témoignages
           </a>
         </nav>
@@ -46,48 +84,95 @@ export function Header() {
         {/* Desktop Auth */}
         <div className="hidden items-center gap-3 md:flex">
           {status === "authenticated" && user ? (
-            <>
-              <Link
-                href="/my-courses"
-                className="text-sm font-medium text-[#000000] transition-colors hover:text-[#4A70A9]"
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen((open) => !open)}
+                className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium transition-colors ${
+                  isOverVideo
+                    ? "border border-white/20 bg-white/10 text-white hover:border-white/40 hover:bg-white/20"
+                    : "border border-black/10 bg-[#EFECE3] text-[#000000] hover:border-[#4A70A9] hover:bg-[#4A70A9]/10"
+                }`}
+                aria-label="Ouvrir le menu profil"
               >
-                Mes cours
-              </Link>
-              <Link
-                href="/profile"
-                className="flex items-center gap-2 text-sm text-black/80 transition-colors hover:text-[#4A70A9]"
-              >
-                {user.image && (
+                {user.image ? (
                   <Image
                     src={user.image}
                     alt={user.name ?? "Profil"}
                     width={32}
                     height={32}
-                    className="rounded-full border border-black/10"
+                    className="h-8 w-8 rounded-full object-cover"
                   />
+                ) : (
+                  <span>
+                    {(user.name || user.email || "?")
+                      .toString()
+                      .trim()
+                      .charAt(0)
+                      .toUpperCase()}
+                  </span>
                 )}
-                <span className="hidden max-w-[140px] truncate lg:inline">
-                  Mon profil
-                </span>
-              </Link>
-              <button
-                onClick={() => signOut()}
-                className="rounded-full border border-black/10 px-4 py-1.5 text-sm font-medium text-[#000000] transition-colors hover:border-[#4A70A9] hover:text-[#4A70A9]"
-              >
-                Se déconnecter
               </button>
-            </>
+
+              {/* Small dropdown for desktop (reuse same state as mobile but only visible on md+) */}
+              {mobileMenuOpen && (
+                <div className="absolute right-0 z-40 mt-2 w-48 rounded-2xl border border-black/10 bg-white py-2 text-sm text-black shadow-lg shadow-black/10">
+                  <div className="px-3 pb-2">
+                    <p className="truncate text-xs font-semibold text-[#000000]">
+                      {user.name ?? user.email}
+                    </p>
+                    <p className="truncate text-[11px] text-black/50">
+                      {user.email}
+                    </p>
+                  </div>
+                  <div className="border-t border-black/5 pt-1">
+                    <Link
+                      href="/my-courses"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-3 py-1.5 text-xs hover:bg-[#EFECE3]"
+                    >
+                      Mes cours
+                    </Link>
+                    <Link
+                      href="/profile"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-3 py-1.5 text-xs hover:bg-[#EFECE3]"
+                    >
+                      Mon profil
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        signOut();
+                      }}
+                      className="mt-1 block w-full px-3 py-1.5 text-left text-xs text-red-600 hover:bg-red-50"
+                    >
+                      Se déconnecter
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
             <>
               <button
                 onClick={() => signIn("google")}
-                className="rounded-full border border-[#4A70A9] px-4 py-1.5 text-sm font-medium text-[#4A70A9] transition-colors hover:bg-[#4A70A9] hover:text-white"
+                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+                  isOverVideo
+                    ? "border border-white/40 text-white hover:bg-white/20 hover:border-white/60"
+                    : "border border-[#4A70A9] text-[#4A70A9] hover:bg-[#4A70A9] hover:text-white"
+                }`}
               >
                 Se connecter
               </button>
               <Link
                 href="/courses"
-                className="rounded-full bg-[#4A70A9] px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#8FABD4]"
+                className={`rounded-full px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition-colors ${
+                  isOverVideo
+                    ? "bg-white/20 hover:bg-white/30"
+                    : "bg-[#4A70A9] hover:bg-[#8FABD4]"
+                }`}
               >
                 Commencer
               </Link>
@@ -98,7 +183,11 @@ export function Header() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="flex h-10 w-10 items-center justify-center rounded-xl bg-black/5 text-black/70 transition-colors hover:bg-[#4A70A9]/10 hover:text-[#4A70A9] md:hidden"
+          className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors md:hidden ${
+            isOverVideo
+              ? "bg-white/10 text-white hover:bg-white/20"
+              : "bg-black/5 text-black/70 hover:bg-[#4A70A9]/10 hover:text-[#4A70A9]"
+          }`}
           aria-label="Menu"
         >
           {mobileMenuOpen ? (

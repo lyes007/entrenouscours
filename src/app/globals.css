@@ -85,3 +85,223 @@
     transform: translateY(0);
   }
 }
+
+/* Course Card Styles - Adapted from Uiverse.io */
+.course-card {
+  width: 100%;
+  border-radius: 20px;
+  background: white;
+  padding: 5px;
+  overflow: hidden;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+}
+
+.course-card:hover {
+  transform: scale(1.05);
+}
+
+.course-card .top-section {
+  height: 150px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(45deg, #4A70A9 0%, #8FABD4 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.course-card .top-section .image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.course-card .top-section .border {
+  border-bottom-right-radius: 10px;
+  height: 30px;
+  width: 130px;
+  background: white;
+  position: relative;
+  transform: skew(-40deg);
+  box-shadow: -10px -10px 0 0 white;
+  z-index: 1;
+}
+
+.course-card .top-section .border::before {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 0;
+  right: -15px;
+  background: rgba(255, 255, 255, 0);
+  border-top-left-radius: 10px;
+  box-shadow: -5px -5px 0 2px white;
+}
+
+.course-card .top-section::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background: rgba(255, 255, 255, 0);
+  height: 15px;
+  width: 15px;
+  border-top-left-radius: 15px;
+  box-shadow: -5px -5px 0 2px white;
+  z-index: 1;
+}
+
+.course-card .top-section .icons {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.course-card .top-section .icons .logo {
+  height: 100%;
+  aspect-ratio: 1;
+  padding: 7px 0 7px 15px;
+}
+
+.course-card .top-section .icons .logo .svg {
+  height: 100%;
+  width: auto;
+}
+
+.course-card .top-section .icons .action-buttons {
+  height: 100%;
+  padding: 8px 15px;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.course-card .top-section .icons .action-buttons .action-btn {
+  height: 20px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.course-card .top-section .icons .action-buttons .action-btn:hover {
+  transform: scale(1.1);
+}
+
+.course-card .top-section .icons .action-buttons .action-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.course-card .top-section .icons .action-buttons .action-btn .svg-icon {
+  height: 100%;
+  width: 100%;
+  fill: white;
+}
+
+.course-card .top-section .icons .action-buttons .action-btn {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.course-card .top-section .icons .action-buttons .action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.course-card .bottom-section {
+  margin-top: 15px;
+  padding: 10px 15px 15px;
+}
+
+.course-card .bottom-section .title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.course-card .bottom-section .title {
+  display: block;
+  font-size: 17px;
+  font-weight: bolder;
+  color: #000000;
+  text-align: center;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.course-card .bottom-section .subject-level {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4A70A9;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.course-card .bottom-section .row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.course-card .bottom-section .row .item {
+  flex: 1;
+  text-align: center;
+  padding: 5px;
+  color: rgba(74, 112, 169, 0.8);
+}
+
+.course-card .bottom-section .row .item .big-text {
+  font-size: 13px;
+  font-weight: 700;
+  display: block;
+  color: #4A70A9;
+  margin-bottom: 4px;
+}
+
+.course-card .bottom-section .row .item .regular-text {
+  font-size: 9px;
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.course-card .bottom-section .row .item:nth-child(2) {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.course-card .bottom-section .teacher-link {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 10px;
+  color: #4A70A9;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.course-card .bottom-section .teacher-link:hover {
+  color: #8FABD4;
+  text-decoration: underline;
+}

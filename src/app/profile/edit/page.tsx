@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Header } from "@/components/Header";
 
 interface ProjectLink {
   name: string;
@@ -175,64 +174,63 @@ export default function EditProfilePage() {
 
   if (status === "loading") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#EFECE3]">
-        <p className="text-black/60">Chargement...</p>
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-white/80">Chargement...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#EFECE3]">
-      <Header />
-      <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-[#000000]">Modifier mon profil</h1>
-          <p className="mt-2 text-black/60">
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-5xl px-3 py-4 sm:px-4 sm:py-5">
+        <div className="mb-4">
+          <h1 className="text-xl sm:text-2xl font-bold text-white">Modifier mon profil</h1>
+          <p className="mt-1 text-[11px] text-white/80">
             Complétez votre profil pour aider les étudiants à mieux vous connaître
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Informations générales */}
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-[#000000]">
+        <form onSubmit={handleSubmit} className="space-y-3">
+          {/* Informations générales - Compact */}
+          <div className="rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 sm:p-4 shadow-lg">
+            <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[#4A70A9]">
               Informations générales
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-2">
               <div>
-                <label className="mb-2 block text-sm font-medium text-[#000000]">
+                <label className="mb-0.5 block text-[10px] font-medium text-[#000000]">
                   Bio / Description
                 </label>
                 <textarea
                   value={formData.bio}
                   onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                  rows={4}
-                  className="w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
-                  placeholder="Parlez-nous de vous, de votre expérience, de vos compétences..."
+                  rows={3}
+                  className="w-full rounded-lg border border-black/10 bg-white px-2 py-1.5 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20 resize-none"
+                  placeholder="Parlez-nous de vous..."
                 />
               </div>
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-2 sm:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-[#000000]">
+                  <label className="mb-0.5 block text-[10px] font-medium text-[#000000]">
                     Téléphone
                   </label>
                   <input
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
+                    className="w-full rounded-lg border border-black/10 bg-white px-2 py-1.5 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
                     placeholder="+216 XX XXX XXX"
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-[#000000]">
+                  <label className="mb-0.5 block text-[10px] font-medium text-[#000000]">
                     Localisation
                   </label>
                   <input
                     type="text"
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    className="w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
+                    className="w-full rounded-lg border border-black/10 bg-white px-2 py-1.5 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
                     placeholder="Tunis, Sfax, etc."
                   />
                 </div>
@@ -240,32 +238,32 @@ export default function EditProfilePage() {
             </div>
           </div>
 
-          {/* Vidéos */}
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-[#000000]">Vidéos</h2>
+          {/* Vidéos - Compact */}
+          <div className="rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 sm:p-4 shadow-lg">
+            <div className="mb-2 flex items-center justify-between">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-[#4A70A9]">Vidéos</h2>
               <button
                 type="button"
                 onClick={addVideo}
-                className="rounded-lg bg-[#4A70A9] px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#8FABD4]"
+                className="rounded-lg bg-[#4A70A9] px-2 py-1 text-[10px] font-medium text-white transition-colors hover:bg-[#8FABD4]"
               >
                 + Ajouter
               </button>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {videos.map((video, idx) => (
-                <div key={idx} className="flex gap-2">
+                <div key={idx} className="flex gap-1.5">
                   <input
                     type="url"
                     value={video}
                     onChange={(e) => updateVideo(idx, e.target.value)}
-                    className="flex-1 rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
-                    placeholder="URL YouTube, Vimeo, ou lien direct"
+                    className="flex-1 rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
+                    placeholder="URL YouTube, Vimeo..."
                   />
                   <button
                     type="button"
                     onClick={() => removeVideo(idx)}
-                    className="rounded-lg border border-red-300 px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50"
+                    className="rounded-lg border border-red-300 px-2 py-1 text-[10px] text-red-600 transition-colors hover:bg-red-50"
                   >
                     Supprimer
                   </button>
@@ -274,32 +272,32 @@ export default function EditProfilePage() {
             </div>
           </div>
 
-          {/* Images */}
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-[#000000]">Images</h2>
+          {/* Images - Compact */}
+          <div className="rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 sm:p-4 shadow-lg">
+            <div className="mb-2 flex items-center justify-between">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-[#4A70A9]">Images</h2>
               <button
                 type="button"
                 onClick={addImage}
-                className="rounded-lg bg-[#4A70A9] px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#8FABD4]"
+                className="rounded-lg bg-[#4A70A9] px-2 py-1 text-[10px] font-medium text-white transition-colors hover:bg-[#8FABD4]"
               >
                 + Ajouter
               </button>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {images.map((image, idx) => (
-                <div key={idx} className="flex gap-2">
+                <div key={idx} className="flex gap-1.5">
                   <input
                     type="url"
                     value={image}
                     onChange={(e) => updateImage(idx, e.target.value)}
-                    className="flex-1 rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
+                    className="flex-1 rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
                     placeholder="URL de l'image"
                   />
                   <button
                     type="button"
                     onClick={() => removeImage(idx)}
-                    className="rounded-lg border border-red-300 px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50"
+                    className="rounded-lg border border-red-300 px-2 py-1 text-[10px] text-red-600 transition-colors hover:bg-red-50"
                   >
                     Supprimer
                   </button>
@@ -308,27 +306,27 @@ export default function EditProfilePage() {
             </div>
           </div>
 
-          {/* Projets */}
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-[#000000]">Projets</h2>
+          {/* Projets - Compact */}
+          <div className="rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 sm:p-4 shadow-lg">
+            <div className="mb-2 flex items-center justify-between">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-[#4A70A9]">Projets</h2>
               <button
                 type="button"
                 onClick={addProjectLink}
-                className="rounded-lg bg-[#4A70A9] px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#8FABD4]"
+                className="rounded-lg bg-[#4A70A9] px-2 py-1 text-[10px] font-medium text-white transition-colors hover:bg-[#8FABD4]"
               >
                 + Ajouter
               </button>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-2">
               {projectLinks.map((project, idx) => (
-                <div key={idx} className="space-y-3 rounded-xl border border-black/10 p-4">
+                <div key={idx} className="space-y-1.5 rounded-lg border border-black/10 p-2">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-medium text-[#000000]">Projet {idx + 1}</h3>
+                    <h3 className="text-[10px] font-medium text-[#000000]">Projet {idx + 1}</h3>
                     <button
                       type="button"
                       onClick={() => removeProjectLink(idx)}
-                      className="text-sm text-red-600 hover:underline"
+                      className="text-[9px] text-red-600 hover:underline"
                     >
                       Supprimer
                     </button>
@@ -337,21 +335,21 @@ export default function EditProfilePage() {
                     type="text"
                     value={project.name}
                     onChange={(e) => updateProjectLink(idx, "name", e.target.value)}
-                    className="w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
+                    className="w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
                     placeholder="Nom du projet"
                   />
                   <input
                     type="url"
                     value={project.url}
                     onChange={(e) => updateProjectLink(idx, "url", e.target.value)}
-                    className="w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
+                    className="w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
                     placeholder="URL du projet"
                   />
                   <textarea
                     value={project.description || ""}
                     onChange={(e) => updateProjectLink(idx, "description", e.target.value)}
-                    rows={2}
-                    className="w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
+                    rows={1}
+                    className="w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20 resize-none"
                     placeholder="Description (optionnel)"
                   />
                 </div>
@@ -359,43 +357,42 @@ export default function EditProfilePage() {
             </div>
           </div>
 
-          {/* CV */}
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-[#000000]">CV / Résumé</h2>
+          {/* CV - Compact */}
+          <div className="rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 sm:p-4 shadow-lg">
+            <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[#4A70A9]">CV / Résumé</h2>
             <input
               type="url"
               value={formData.resumeUrl}
               onChange={(e) => setFormData({ ...formData, resumeUrl: e.target.value })}
-              className="w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
-              placeholder="URL de votre CV (Google Drive, Dropbox, etc.)"
+              className="w-full rounded-lg border border-black/10 bg-white px-2 py-1.5 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
+              placeholder="URL de votre CV (Google Drive, Dropbox...)"
             />
-            <p className="mt-2 text-xs text-black/60">
-              💡 Astuce : Uploadez votre CV sur Google Drive, partagez-le publiquement, puis
-              collez le lien ici
+            <p className="mt-1.5 text-[9px] text-black/60">
+              💡 Uploadez votre CV sur Google Drive, partagez-le publiquement, puis collez le lien
             </p>
           </div>
 
-          {/* Certificats */}
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-[#000000]">Certificats</h2>
+          {/* Certificats - Compact */}
+          <div className="rounded-xl border border-white/20 bg-white/95 backdrop-blur-sm p-3 sm:p-4 shadow-lg">
+            <div className="mb-2 flex items-center justify-between">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-[#4A70A9]">Certificats</h2>
               <button
                 type="button"
                 onClick={addCertificate}
-                className="rounded-lg bg-[#4A70A9] px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#8FABD4]"
+                className="rounded-lg bg-[#4A70A9] px-2 py-1 text-[10px] font-medium text-white transition-colors hover:bg-[#8FABD4]"
               >
                 + Ajouter
               </button>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-2">
               {certificates.map((cert, idx) => (
-                <div key={idx} className="space-y-3 rounded-xl border border-black/10 p-4">
+                <div key={idx} className="space-y-1.5 rounded-lg border border-black/10 p-2">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-medium text-[#000000]">Certificat {idx + 1}</h3>
+                    <h3 className="text-[10px] font-medium text-[#000000]">Certificat {idx + 1}</h3>
                     <button
                       type="button"
                       onClick={() => removeCertificate(idx)}
-                      className="text-sm text-red-600 hover:underline"
+                      className="text-[9px] text-red-600 hover:underline"
                     >
                       Supprimer
                     </button>
@@ -404,30 +401,30 @@ export default function EditProfilePage() {
                     type="text"
                     value={cert.name}
                     onChange={(e) => updateCertificate(idx, "name", e.target.value)}
-                    className="w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
+                    className="w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
                     placeholder="Nom du certificat"
                   />
                   <input
                     type="text"
                     value={cert.issuer}
                     onChange={(e) => updateCertificate(idx, "issuer", e.target.value)}
-                    className="w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
+                    className="w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
                     placeholder="Organisme émetteur"
                   />
-                  <div className="grid gap-3 md:grid-cols-2">
+                  <div className="grid gap-1.5 sm:grid-cols-2">
                     <input
                       type="text"
                       value={cert.date || ""}
                       onChange={(e) => updateCertificate(idx, "date", e.target.value)}
-                      className="rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
+                      className="rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
                       placeholder="Date (ex: Janvier 2024)"
                     />
                     <input
                       type="url"
                       value={cert.url || ""}
                       onChange={(e) => updateCertificate(idx, "url", e.target.value)}
-                      className="rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#4A70A9] focus:ring-2 focus:ring-[#8FABD4]/50"
-                      placeholder="URL du certificat (optionnel)"
+                      className="rounded-lg border border-black/10 bg-white px-2 py-1 text-[11px] outline-none transition-all focus:border-[#4A70A9] focus:ring-1 focus:ring-[#4A70A9]/20"
+                      placeholder="URL (optionnel)"
                     />
                   </div>
                 </div>
@@ -435,31 +432,31 @@ export default function EditProfilePage() {
             </div>
           </div>
 
-          {/* Error & Success Messages */}
+          {/* Error & Success Messages - Compact */}
           {error && (
-            <div className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-600">
+            <div className="rounded-lg border border-red-300 bg-red-50 p-2 text-[10px] text-red-600">
               {error}
             </div>
           )}
           {success && (
-            <div className="rounded-xl border border-green-300 bg-green-50 p-4 text-sm text-green-600">
+            <div className="rounded-lg border border-green-300 bg-green-50 p-2 text-[10px] text-green-600">
               Profil mis à jour avec succès ! Redirection...
             </div>
           )}
 
-          {/* Submit Button */}
-          <div className="flex gap-4">
+          {/* Submit Button - Compact */}
+          <div className="flex gap-2">
             <button
               type="button"
               onClick={() => router.push("/profile")}
-              className="flex-1 rounded-xl border border-black/10 bg-white px-6 py-3 font-medium text-[#000000] transition-colors hover:bg-black/5"
+              className="flex-1 rounded-lg border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#000000] transition-colors hover:bg-black/5"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 rounded-xl bg-[#4A70A9] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#8FABD4] disabled:opacity-50"
+              className="flex-1 rounded-lg bg-[#4A70A9] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#8FABD4] disabled:opacity-50"
             >
               {loading ? "Enregistrement..." : "Enregistrer"}
             </button>

@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
-import { Header } from "@/components/Header";
 
 interface PageParams {
   params: Promise<{ id: string }>;
@@ -52,7 +51,6 @@ export default async function PublicProfilePage({ params }: PageParams) {
 
   return (
     <div className="min-h-screen bg-[#EFECE3]">
-      <Header />
       <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
         {/* Header */}
         <div className="mb-8 flex items-start gap-4">
@@ -67,9 +65,9 @@ export default async function PublicProfilePage({ params }: PageParams) {
           )}
           <div className="flex-1">
             <div className="flex items-center gap-2">
-              <h1 className="text-3xl font-bold text-[#000000]">
-                {user.name ?? "Utilisateur"}
-              </h1>
+            <h1 className="text-3xl font-bold text-[#000000]">
+              {user.name ?? "Utilisateur"}
+            </h1>
               {validationScore >= 4 && (
                 <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
                   ✓ Vérifié

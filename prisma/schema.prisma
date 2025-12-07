@@ -99,6 +99,7 @@ model Course {
   subject        String
   level          String
   googleMeetUrl  String
+  imageUrl       String?   // URL de l'image du cours (optionnel)
 
   // Offre et tarification
   offerType      OfferType @default(PAID)
