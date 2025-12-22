@@ -11,6 +11,7 @@ export function Header() {
   const user = session?.user;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isOverVideo, setIsOverVideo] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -35,6 +36,20 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
+
+  useEffect(() => {
+    // Check if user is admin based on email
+    if (session?.user?.email) {
+      const adminEmails = process.env.NEXT_PUBLIC_ADMIN_EMAILS || "";
+      const adminList = adminEmails
+        .split(",")
+        .map((e) => e.trim().toLowerCase())
+        .filter((e) => e.length > 0);
+      setIsAdmin(adminList.includes(session.user.email.toLowerCase()));
+    } else {
+      setIsAdmin(false);
+    }
+  }, [session]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/20 bg-transparent backdrop-blur-md">
@@ -140,6 +155,15 @@ export function Header() {
                     >
                       Mon profil
                     </Link>
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block px-3 py-1.5 text-xs font-semibold text-[#4A70A9] hover:bg-[#EFECE3]"
+                      >
+                        🔧 Admin
+                      </Link>
+                    )}
                     <button
                       type="button"
                       onClick={() => {
@@ -305,6 +329,15 @@ export function Header() {
                 >
                   Mon profil
                 </Link>
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-[#4A70A9] transition-colors hover:bg-[#4A70A9]/10"
+                  >
+                    🔧 Admin
+                  </Link>
+                )}
               </>
             )}
           </nav>
