@@ -58,6 +58,10 @@ export function CourseImage({
     );
   }
 
+  // For external images, use unoptimized to avoid Next.js image optimization issues
+  const isExternalImage = imageUrl?.startsWith("http://") || imageUrl?.startsWith("https://");
+  const shouldUnoptimize = imageUrl?.startsWith("/uploads/") || isExternalImage;
+
   if (fill) {
     return (
       <div className={`relative overflow-hidden ${className}`}>
@@ -69,7 +73,7 @@ export function CourseImage({
           onError={() => setImageError(true)}
           priority={priority}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          unoptimized={imageUrl?.startsWith("/uploads/")}
+          unoptimized={shouldUnoptimize}
         />
       </div>
     );
@@ -85,7 +89,7 @@ export function CourseImage({
         className="object-cover"
         onError={() => setImageError(true)}
         priority={priority}
-        unoptimized={imageUrl?.startsWith("/uploads/")}
+        unoptimized={shouldUnoptimize}
       />
     </div>
   );

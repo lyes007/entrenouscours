@@ -5,6 +5,7 @@ import { isAdmin } from "@/lib/admin";
 import { StatsCard } from "@/components/admin/StatsCard";
 import { UsersTable } from "@/components/admin/UsersTable";
 import { CoursesTable } from "@/components/admin/CoursesTable";
+import { SeedImagesButton } from "@/components/admin/SeedImagesButton";
 
 async function getAdminData() {
   const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
@@ -147,9 +148,12 @@ export default async function AdminPage() {
 
         {/* Stats Section */}
         <div className="mb-8">
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">
-            Statistiques
-          </h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Statistiques
+            </h2>
+            <SeedImagesButton />
+          </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <StatsCard
               title="Total Utilisateurs"
